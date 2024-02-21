@@ -1,8 +1,3 @@
-// "userId": 1,
-//     "id": 1,
-//     "title": "delectus aut autem",
-//     "completed": false
-
 final class ToDo {
   final int userId;
   final int id;

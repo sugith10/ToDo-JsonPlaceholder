@@ -36,6 +36,7 @@ final class TodoDataRepository {
         );
       }
       log('Delete request success');
+      Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text(

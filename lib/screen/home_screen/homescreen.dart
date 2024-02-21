@@ -86,23 +86,23 @@ class _HomePageState extends State<HomePage> {
                         IconButton(
                             color: const Color.fromARGB(255, 94, 188, 100),
                             onPressed: () {
-                              showDialogBox(todo,'put');
+                              showDialogBox(todo, 'put');
                             },
                             icon: const CircleAvatar(child: Text('put'))),
-                             IconButton(
+                        IconButton(
                             color: const Color.fromARGB(255, 94, 188, 100),
                             onPressed: () {
-                              showDialogBox(todo,'patch');
+                              showDialogBox(todo, 'patch');
                             },
-                            icon:const CircleAvatar(child: Text('patch', style: TextStyle(
-                              fontSize: 10
-                            ),))),
+                            icon: const CircleAvatar(
+                                child: Text(
+                              'patch',
+                              style: TextStyle(fontSize: 10),
+                            ))),
                         IconButton(
                             color: const Color.fromARGB(255, 224, 79, 79),
                             onPressed: () {
-                              context
-                                  .read<TodoBloc>()
-                                  .add(TodoDelete(todo.id, context));
+                              showDeleteDialogBox(todo);
                             },
                             icon: const CircleAvatar(child: Text('Del'))),
                       ],
@@ -115,7 +115,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  showDialogBox(ToDo todo, String action) {
+  void showDialogBox(ToDo todo, String action) {
     TextEditingController textEditingController = TextEditingController();
     textEditingController.text = todo.title;
     showDialog(
@@ -145,19 +145,49 @@ class _HomePageState extends State<HomePage> {
           actions: [
             ElevatedButton(
                 onPressed: () {
-                  print(textEditingController.text);
                   todo.title = textEditingController.text;
-                  if(action == 'put'){
-                     context.read<TodoBloc>().add(TodoUpdate(todo, context));
-                  }else if(action == 'patch'){
-                     context.read<TodoBloc>().add(TodoEdit(todo, context));
+                  if (action == 'put') {
+                    context.read<TodoBloc>().add(TodoUpdate(todo, context));
+                  } else if (action == 'patch') {
+                    context.read<TodoBloc>().add(TodoEdit(todo, context));
                   }
-
                 },
-                child:  Center(child: Text(action)))
+                child: Center(child: Text(action)))
           ],
         );
       },
     );
+  }
+
+  void showDeleteDialogBox(ToDo todo) {
+    showDialog(
+        context: context,
+        builder: (BuildContext _) {
+          return AlertDialog(
+            title: const Center(child: Text('Delete ToDo')),
+            actions: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  ElevatedButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: const Text('Cancel')),
+                     const SizedBox(
+                      width: 20,
+                     ),
+                  ElevatedButton(
+                      onPressed: () {
+                        context
+                            .read<TodoBloc>()
+                            .add(TodoDelete(todo.id, context));
+                      },
+                      child: const Text('Delete', style: TextStyle(color: Colors.red),))
+                ],
+              )
+            ],
+          );
+        });
   }
 }

@@ -15,7 +15,6 @@ final class TodoDataRepository {
     try {
       final res = await todoDataProvider.getTodo();
       final List<dynamic> data = jsonDecode(res);
-      print(data);
       final List<ToDo> todo = data.map((item) => ToDo.fromMap(item)).toList();
       return todo;
     } catch (e) {
@@ -65,7 +64,6 @@ final class TodoDataRepository {
             backgroundColor: Colors.red,
           ),
         );
-        
       }
       log('put request success');
       ScaffoldMessenger.of(context).showSnackBar(
@@ -113,6 +111,4 @@ final class TodoDataRepository {
       throw e.toString();
     }
   }
-
-
 }

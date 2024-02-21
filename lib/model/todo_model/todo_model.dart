@@ -6,7 +6,7 @@
 final class ToDo {
   final int userId;
   final int id;
-  final String title;
+   String title;
   final bool completed;
 
   ToDo(
